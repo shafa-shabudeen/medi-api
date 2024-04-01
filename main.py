@@ -9,6 +9,8 @@ from tensorflow.keras.preprocessing import image
 import io
 from fastapi.responses import JSONResponse
 
+# Import statements
+
 app = FastAPI()
 
 origins = [
@@ -19,41 +21,34 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials = True,
-    allow_methods = ["*"],
-    allow_headers= ["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-model = tf.keras.models.load_model(r"tf_trained_model.h5")
-class_names = ['Aloevera', 'Amla', 'Amruthaballi', 'Arali', 'Astma_weed', 'Badipala', 'Balloon_Vine', 'Bamboo', 'Beans', 'Betel', 'Bhrami', 'Bringaraja', 'Caricature', 'Castor', 'Catharanthus', 'Chakte', 'Chilly', 'Citron lime (herelikai)', 'Coffee', 'Common rue(naagdalli)', 'Coriender', 'Curry', 'Doddpathre', 'Ekka', 'Eucalyptus', 'Ganigale', 'Ganike', 'Gasagase', 'Ginger', 'Globe Amarnath', 'Guava', 'Henna', 'Hibiscus', 'Honge', 'Insulin', 'Jackfruit', 'Jasmine', 'Kambajala', 'Kasambruga', 'Lemon', 'Malabar_Nut', 'Malabar_Spinach', 'Mango', 'Marigold', 'ashoka', 'camphor', 'kamakasturi']
+# Load the TensorFlow model outside the application initialization
+model = tf.keras.models.load_model("tf_trained_model.h5")
+class_names = [...]
+...
 
-def reshape_image(contents):
-    img_width, img_height = 299, 299
-    img = image.load_img(io.BytesIO(contents), target_size=(img_width, img_height))
-    img_array = image.img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0
-    return img_array
+# Define the reshape_image function
+...
 
 @app.get("/ping")
-
 async def ping():
     return "HELLO"
 
 
 @app.post("/predict")
-async def Predict(file : UploadFile = File(...)):
+async def Predict(file: UploadFile = File(...)):
     contents = await file.read()
     img_array = reshape_image(contents)
     prediction_array = model.predict(img_array)
     predicted_label = np.argmax(prediction_array)
     predicted_class = class_names[predicted_label]
-    return JSONResponse(content= predicted_class)
-    
+    return JSONResponse(content=predicted_class)
 
 
-
-
-
+# Use environment variables for configuration
 if __name__ == "__main__":
-    uvicorn.run(app , host = 'localhost' , port = 5000)
+    uvicorn.run(app, host="localhost", port=5000)
