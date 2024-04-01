@@ -1,5 +1,6 @@
 tensorflow
 fastapi
+gunicorn
 uvicorn
 python-multipart
 pillow
