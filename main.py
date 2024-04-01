@@ -24,7 +24,7 @@ app.add_middleware(
     allow_headers= ["*"],
 )
 
-model = tf.keras.models.load_model(r"C:\git repos\api\tf_trained_model.h5")
+model = tf.keras.models.load_model(r"tf_trained_model.h5")
 class_names = ['Aloevera', 'Amla', 'Amruthaballi', 'Arali', 'Astma_weed', 'Badipala', 'Balloon_Vine', 'Bamboo', 'Beans', 'Betel', 'Bhrami', 'Bringaraja', 'Caricature', 'Castor', 'Catharanthus', 'Chakte', 'Chilly', 'Citron lime (herelikai)', 'Coffee', 'Common rue(naagdalli)', 'Coriender', 'Curry', 'Doddpathre', 'Ekka', 'Eucalyptus', 'Ganigale', 'Ganike', 'Gasagase', 'Ginger', 'Globe Amarnath', 'Guava', 'Henna', 'Hibiscus', 'Honge', 'Insulin', 'Jackfruit', 'Jasmine', 'Kambajala', 'Kasambruga', 'Lemon', 'Malabar_Nut', 'Malabar_Spinach', 'Mango', 'Marigold', 'ashoka', 'camphor', 'kamakasturi']
 
 def reshape_image(contents):
